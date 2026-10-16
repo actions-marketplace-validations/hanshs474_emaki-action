@@ -1,0 +1,59 @@
+name: emaki Seedance AI Video Generator
+description: Generate a Seedance 2.5 or 2.0 AI video, or an image, in a workflow with emaki (emaki.ai) and get its URL
+author: emaki
+branding:
+  icon: film
+  color: red
+inputs:
+  prompt:
+    description: What to make
+    required: true
+  api-key:
+    description: "A key from https://emaki.ai/settings/apikeys, passed from a secret: ${{ secrets.EMAKI_API_KEY }}"
+    required: true
+  media:
+    description: video or image
+    required: false
+    default: video
+  model:
+    description: "Model id. Empty uses seedance_2_5 for video and nano_banana_2_lite for images. Also seedance_2, seedance_2_fast, seedance_2_mini, minimax_h3, veo_3_1, nano_banana_2, seedream_5_lite, gpt_image_2"
+    required: false
+    default: ""
+  image-url:
+    description: Public https url of the first frame, for image to video
+    required: false
+    default: ""
+  aspect-ratio:
+    description: e.g. 16:9, 9:16, 1:1
+    required: false
+    default: ""
+  duration:
+    description: Clip length in seconds (Seedance 2.5 takes 4 to 30)
+    required: false
+    default: ""
+  resolution:
+    description: e.g. 480p, 720p, 1080p for video; 1K, 2K, 4K for some image models
+    required: false
+    default: ""
+  parameters:
+    description: 'Extra model parameters as a JSON object, e.g. {"generate_audio": false}'
+    required: false
+    default: ""
+  output-path:
+    description: If set, the file is downloaded to this path in the workspace
+    required: false
+    default: ""
+  timeout-minutes:
+    description: Deadline for the whole call; video can wait in a queue
+    required: false
+    default: "15"
+outputs:
+  url:
+    description: URL of the finished file
+  path:
+    description: Where the file was saved, if output-path was set
+  id:
+    description: The emaki run id
+runs:
+  using: node20
+  main: index.js
